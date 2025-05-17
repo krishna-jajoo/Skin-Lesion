@@ -1,0 +1,11 @@
+__pycache__/
+env/
+*.pyc
+*.pyo
+*.DS_Store
+*.h5
+*.pth
+data/
+application/assets/
+training/outputs/logs/
+.env

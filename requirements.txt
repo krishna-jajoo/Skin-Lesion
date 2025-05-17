@@ -1,0 +1,17 @@
+# Deep learning frameworks
+torch
+torchvision
+tensorflow
+keras
+
+# Image processing
+opencv-python
+pillow
+
+# Utilities
+numpy
+scikit-learn
+matplotlib
+
+# Optional for GUI
+tk
