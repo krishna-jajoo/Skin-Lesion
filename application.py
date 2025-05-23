@@ -1,27 +1,16 @@
 from tkinter import *
-from tkinter.colorchooser import askcolor
 import cv2
 import numpy as np
-import tensorflow as tf
-from tensorflow import keras
 from keras.models import load_model
-from tkinter import *
-from PIL import ImageTk, Image
+from PIL import ImageTk, Image, ImageDraw
 from tkinter import filedialog
-import tkinter as tk
-from tkinter import Message, Text
-import cv2
-import matplotlib.pyplot as plt
-import numpy as np
-from PIL import Image, ImageDraw
-from PIL import ImageTk, Image
 import os
 
 global add
 
 add = 0
 image_output_file_path = r"data\output"
-output_file_path = r"application\outputs"
+model_path = r"application\outputs\unet_segmentation_model.h5"
 
 
 class Main(object):
@@ -133,7 +122,7 @@ class Main(object):
 
         self.setup()
         self.root.mainloop()
-
+    
     def choose(self):
         global address
         global ifile
@@ -166,7 +155,7 @@ class Main(object):
 
     def predict_image(self, p_img):
         model = load_model(
-            rf"{output_file_path}\unet_segmentation_model.h5",
+            rf"{model_path}",
             compile=False,
         )
 
