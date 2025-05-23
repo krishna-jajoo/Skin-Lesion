@@ -18,11 +18,11 @@ def encoder_block(input, num_filters):
 
 def conv_block(input, num_filters):
     x = Conv2D(num_filters, 3, padding="same")(input)
-    # x = BatchNormalization()(x)
+    x = BatchNormalization()(x)
     x = ReLU()(x)
 
     x = Conv2D(num_filters, 3, padding="same")(x)
-    # x = BatchNormalization()(x)
+    x = BatchNormalization()(x)
     x = ReLU()(x)
 
     return x
