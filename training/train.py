@@ -4,9 +4,9 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import ModelCheckpoint
 
-from dataset import SegmentationDataset
-from model import build_unet
-from utils import dice_loss
+from training.dataset import SegmentationDataset
+from training.model import build_unet
+from training.utils import dice_loss
 
 # Paths
 image_dir = "./data/images/Dataset 1"
@@ -39,4 +39,4 @@ checkpoint = ModelCheckpoint(
 )
 
 # Training
-model.fit(train_dataset, validation_data=val_dataset, epochs=20, callbacks=[checkpoint])
+model.fit(train_dataset, validation_data=val_dataset, epochs=10, callbacks=[checkpoint])

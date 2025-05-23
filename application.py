@@ -20,6 +20,8 @@ import os
 global add
 
 add = 0
+image_output_file_path = r"data\output"
+output_file_path = r"application\outputs"
 
 
 class Main(object):
@@ -159,21 +161,12 @@ class Main(object):
         kernel = np.ones((2, 2), np.uint8)
 
         opening_op = cv2.morphologyEx(imagedata_original, cv2.MORPH_GRADIENT, kernel)
-        m = cv2.resize(opening_op, (960, 540))
+        # m = cv2.resize(opening_op, (960, 540))
         return opening_op
-        cv2.imshow("Opening Operation", m)
-        # cv2.waitKey(0)
-
-        final_image = cv2.add(imagedata_original, opening_op)
-        # return final_image
-        n = cv2.resize(final_image, (540, 540))
-        cv2.imshow("Image", n)
-        # cv2.imshow('Image', final_image)
-        cv2.waitKey(0)
 
     def predict_image(self, p_img):
         model = load_model(
-            r"C:\Users\krish\OneDrive\Desktop\personal_growth\Skin-Lesion\application\outputs\unet_segmentation_model.h5",
+            rf"{output_file_path}\unet_segmentation_model.h5",
             compile=False,
         )
 
@@ -233,11 +226,8 @@ class Main(object):
         image = cv2.imread(self.address)
         image2 = self.preprocess(self.predict_image(image))
 
-        cv2.imwrite("pr1.png", image2)
-        img = cv2.imread("pr1.png")
-        # img = Image.open("pr1.png")
-
-        # img = image2
+        cv2.imwrite(f"{image_output_file_path}/pr1.png", image2)
+        img = cv2.imread(f"{image_output_file_path}/pr1.png")
         for i in range(len(img)):
             for j in range(len(img[i])):
                 for k in range(0, 3):
@@ -248,10 +238,10 @@ class Main(object):
 
         img = cv2.resize(img, (450, 450))
         ret, bw_img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
-        cv2.imwrite("black_white_output.png", bw_img)
-        self.i = Image.open("black_white_output.png").convert("RGBA")
+        cv2.imwrite(f"{image_output_file_path}/black_white_output.png", bw_img)
+        self.i = Image.open(f"{image_output_file_path}/black_white_output.png").convert("RGBA")
         self.draw = ImageDraw.Draw(self.i)
-        img = Image.open("black_white_output.png")
+        img = Image.open(f"{image_output_file_path}/black_white_output.png")
         img = img.convert("RGBA")
 
         datas = img.getdata()
@@ -265,7 +255,7 @@ class Main(object):
                 newData.append(item)
 
         img.putdata(newData)
-        img.save("./transparent_output.png", "PNG")
+        img.save(f"{image_output_file_path}/transparent_output.png", "PNG")
         print("Successful")
         """label.configure(image=image)
         label.image=image
@@ -278,9 +268,9 @@ class Main(object):
         global boundary_image
         main_image = ImageTk.PhotoImage(Image.open(self.address))
         main = cv2.imread(self.address)
-        bound = cv2.imread("transparent_output.png")
+        bound = cv2.imread(f"{image_output_file_path}/transparent_output.png")
 
-        boundary_image = ImageTk.PhotoImage(Image.open("transparent_output.png"))
+        boundary_image = ImageTk.PhotoImage(Image.open(f"{image_output_file_path}/transparent_output.png"))
 
         self.lb2.configure(text="Segmented Image")
 
@@ -288,20 +278,20 @@ class Main(object):
 
     def save_bu(self):
         i_1 = Image.open(self.address).resize((450, 450), Image.Resampling.LANCZOS)
-        i_2 = Image.open("final_trans.png")
+        i_2 = Image.open(f"{image_output_file_path}/final_trans.png")
         i_1.paste(i_2, (0, 0), i_2)
         i_1.show()
 
     def save(self):
         global image_number
         filename = (
-            "final_black_white_output.png"  # image_number increments by 1 at every save
+            f"{image_output_file_path}/final_black_white_output.png"  # image_number increments by 1 at every save
         )
         self.i.save(filename)
 
     def error_solved(self):
         self.save()
-        img = Image.open("final_black_white_output.png").convert("RGBA")
+        img = Image.open(f"{image_output_file_path}/final_black_white_output.png").convert("RGBA")
 
         datas = img.getdata()
 
@@ -314,9 +304,9 @@ class Main(object):
                 newData.append(item)
 
         img.putdata(newData)
-        img.save("final_trans.png")
+        img.save(f"{image_output_file_path}/final_trans.png")
         self.imgoriginal = ImageTk.PhotoImage(Image.open(self.address))
-        self.final = ImageTk.PhotoImage(Image.open("final_trans.png"))
+        self.final = ImageTk.PhotoImage(Image.open(f"{image_output_file_path}/final_trans.png"))
 
         self.update()
 
